@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -38,7 +37,6 @@ public class SearchActivity extends AppCompatActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
     }
 
     /**
