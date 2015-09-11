@@ -24,9 +24,10 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
+
         <activity
             android:name=".SplashActivity"
-            android:label="Splash Screen">
+            android:label="Splash Screen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,7 +45,18 @@
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search" >
-
+        </activity>
+        <activity
+            android:name=".OffersActivity"
+            android:label="@string/title_activity_offers" >
+        </activity>
+        <activity
+            android:name=".MyOffersActivity"
+            android:label="@string/title_activity_my_offers" >
+        </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/title_activity_sign_up" >
         </activity>
     </application>
 

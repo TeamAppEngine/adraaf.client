@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     tools:context="ir.appengine.adraaf.SearchActivity$PlaceholderFragment"
     android:id="@+id/fragment_search_scroll_view"
-    android:background="#f6902d">
+    android:background="#f6902d"
+    android:scrollbars="none">
     <LinearLayout
         android:id="@+id/fragment_search_linear_layout"
         android:layout_width="match_parent"

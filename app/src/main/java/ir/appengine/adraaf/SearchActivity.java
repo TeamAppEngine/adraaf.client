@@ -27,9 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import utils.ConnectToServer;
 
 public class SearchActivity extends AppCompatActivity {
@@ -50,10 +47,13 @@ public class SearchActivity extends AppCompatActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
-        ObjectAnimator animator;
+        ObjectAnimator animator1;
+        ObjectAnimator animator2;
+        ObjectAnimator animator3;
         float x1,y1;
         int repeat = 0;
         boolean responseReceived = false;
+        boolean mapsStarted = false;
         String result;
 
         public PlaceholderFragment() {
@@ -114,9 +114,9 @@ public class SearchActivity extends AppCompatActivity {
                             case MotionEvent.ACTION_UP:
                                 Log.d("Action Move", "x2: " + String.valueOf(event.getX()) + ", y2: " + String.valueOf(event.getY()));
                                 getLocationData(35.7552336, 51.367946);
-                                animator = ObjectAnimator.ofFloat(markerImageView, "translationY", 0, -350);
-                                animator.setDuration(500);
-                                animator.addListener(new Animator.AnimatorListener() {
+                                animator1 = ObjectAnimator.ofFloat(markerImageView, "translationY", 0, -350);
+                                animator1.setDuration(500);
+                                animator1.addListener(new Animator.AnimatorListener() {
                                     @Override
                                     public void onAnimationStart(Animator animation) {
 
@@ -124,12 +124,12 @@ public class SearchActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
-                                        ObjectAnimator animator = ObjectAnimator.ofFloat(markerImageView, "translationY", -350, -100);
-                                        animator.setDuration(300);
-                                        animator.setRepeatMode(ObjectAnimator.REVERSE);
-                                        animator.setRepeatCount(ValueAnimator.INFINITE);
+                                        animator2 = ObjectAnimator.ofFloat(markerImageView, "translationY", -350, -100);
+                                        animator2.setDuration(300);
+                                        animator2.setRepeatMode(ObjectAnimator.REVERSE);
+                                        animator2.setRepeatCount(ValueAnimator.INFINITE);
                                         //animator.setInterpolator(new BounceInterpolator());
-                                        animator.addListener(new Animator.AnimatorListener() {
+                                        animator2.addListener(new Animator.AnimatorListener() {
                                             @Override
                                             public void onAnimationStart(Animator animation) {
 
@@ -148,16 +148,11 @@ public class SearchActivity extends AppCompatActivity {
                                             @Override
                                             public void onAnimationRepeat(Animator animation) {
                                                 repeat++;
-                                                Log.d("repeat",String.valueOf(repeat));
-                                                /*if(earthImageView.getVisibility()==View.VISIBLE)
-                                                    earthImageView.setVisibility(View.INVISIBLE);
-                                                else
-                                                    earthImageView.setVisibility(View.VISIBLE);*/
                                                 if (responseReceived) {
                                                     if (repeat % 2 == 0) {
-                                                        ObjectAnimator animator = ObjectAnimator.ofFloat(markerImageView, "translationY", -350, height);
-                                                        animator.setDuration(300);
-                                                        animator.addListener(new Animator.AnimatorListener() {
+                                                        animator3 = ObjectAnimator.ofFloat(markerImageView, "translationY", -350, height);
+                                                        animator3.setDuration(300);
+                                                        animator3.addListener(new Animator.AnimatorListener() {
                                                             @Override
                                                             public void onAnimationStart(Animator animation) {
                                                                 ObjectAnimator animator = ObjectAnimator.ofFloat(linearLayout, "translationY", 0, height);
@@ -169,14 +164,9 @@ public class SearchActivity extends AppCompatActivity {
                                                             public void onAnimationEnd(Animator animation) {
                                                                 markerImageView.setVisibility(View.INVISIBLE);
                                                                 linearLayout.setVisibility(View.INVISIBLE);
-                                                                try {
-                                                                    JSONObject jsonObject = new JSONObject(result);
-                                                                    JSONArray jsonArray = jsonObject.getJSONArray("offers");
-                                                                    Intent intent = new Intent(getActivity(), MapsActivity.class);
-                                                                    intent.putExtra("offers", jsonArray.toString());
-                                                                    getActivity().startActivity(intent);
-                                                                } catch (JSONException e) {
-                                                                    e.printStackTrace();
+                                                                if(!mapsStarted){
+                                                                    startMapsActivity();
+                                                                    mapsStarted = true;
                                                                 }
                                                             }
 
@@ -190,12 +180,12 @@ public class SearchActivity extends AppCompatActivity {
 
                                                             }
                                                         });
-                                                        animator.start();
+                                                        animator3.start();
                                                     }
                                                 }
                                             }
                                         });
-                                        animator.start();
+                                        animator2.start();
                                     }
 
                                     @Override
@@ -208,7 +198,7 @@ public class SearchActivity extends AppCompatActivity {
 
                                     }
                                 });
-                                animator.start();
+                                animator1.start();
                                 touched[0] = true;
                                 break;
                         }
@@ -222,7 +212,7 @@ public class SearchActivity extends AppCompatActivity {
             return rootView;
         }
 
-        private void getLocationData(double x1,double y1) {
+        private void getLocationData(final double x1, final double y1) {
             //TODO: Add Params for location.
             ConnectToServer.get(
                     getActivity(),
@@ -240,11 +230,23 @@ public class SearchActivity extends AppCompatActivity {
 
                         @Override
                         public void ErrorListener(VolleyError error) {
-                            Toast.makeText(getActivity().getApplicationContext(),"خطا!",Toast.LENGTH_LONG).show();
                             error.printStackTrace();
+                            getLocationData(x1,y1);
                         }
                     }
             );
+        }
+        private void startMapsActivity(){
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray jsonArray = jsonObject.getJSONArray("offers");
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                intent.putExtra("offers", jsonArray.toString());
+                getActivity().startActivity(intent);
+                getActivity().finish();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

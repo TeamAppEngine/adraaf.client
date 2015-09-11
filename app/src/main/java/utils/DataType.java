@@ -14,7 +14,5 @@ public class DataType {
         public String description;
         public String img_url;
         public int id;
-        public int point;
-        public int level;
     }
 }

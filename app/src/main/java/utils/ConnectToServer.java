@@ -13,15 +13,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConnectToServer {
 
-    public static String baseUri = "http://umkkf795f2ee.msadjad.koding.io/";
+    public static String baseUri = "http://178.238.226.60/";
     public static String ConnectToServerDebugTag = "ConnectToServer";
-
-    private static RequestQueue queue = null;
 
     //POST
     public static void post(final Context context, final boolean withProgressDialog, final String title, final String message, final String url, final Map<String,String> parameters, final boolean attach_user_data, final PostListener postListener){
@@ -32,8 +33,7 @@ public class ConnectToServer {
         }else
             pd = null;
 
-        if(queue==null)
-            queue = Volley.newRequestQueue(context);
+            RequestQueue queue = Volley.newRequestQueue(context);
 
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -42,6 +42,16 @@ public class ConnectToServer {
                 if (pd != null) {
                     pd.dismiss();
                 }
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    Session session = new Session(context);
+                    session.insertOrUpdateUserLevel(jsonObject.getInt("level"));
+                    session.insertOrUpdateUserPoint(jsonObject.getInt("points"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 Log.d(ConnectToServerDebugTag, "Successful: " + title + " - " + message);
                 Log.d(ConnectToServerDebugTag, "response:\n" + response);
             }
@@ -87,8 +97,7 @@ public class ConnectToServer {
         }else
             pd = null;
 
-        if(queue==null)
-            queue = Volley.newRequestQueue(context);
+        RequestQueue queue = Volley.newRequestQueue(context);
 
         Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -97,6 +106,16 @@ public class ConnectToServer {
                 if (pd != null) {
                     pd.dismiss();
                 }
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    Session session = new Session(context);
+                    session.insertOrUpdateUserLevel(jsonObject.getInt("level"));
+                    session.insertOrUpdateUserPoint(jsonObject.getInt("points"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 Log.d(ConnectToServerDebugTag, "Successful: " + title + " - " + message);
                 Log.d(ConnectToServerDebugTag, "response:\n" + response);
             }

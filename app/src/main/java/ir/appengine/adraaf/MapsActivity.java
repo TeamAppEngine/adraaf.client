@@ -1,16 +1,23 @@
 package ir.appengine.adraaf;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Display;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.internal.zzf;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,17 +30,12 @@ public class MapsActivity extends AppCompatActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     public static ArrayList<DataType.Offer> offerArrayList = new ArrayList<>();
+    private ArrayList<Marker> markers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         Intent intent = getIntent();
         String offers = intent.getStringExtra("offers");
@@ -62,10 +64,8 @@ public class MapsActivity extends AppCompatActivity {
                 offer.percent = offersJSONArray.getJSONObject(i).getInt("percent");
                 offer.title = offersJSONArray.getJSONObject(i).getString("title");
                 offer.description = offersJSONArray.getJSONObject(i).getString("description");
-                offer.img_url = offersJSONArray.getJSONObject(i).getString("img_url");
+                offer.img_url = offersJSONArray.getJSONObject(i).getString("img");
                 offer.id = offersJSONArray.getJSONObject(i).getInt("id");
-                offer.point = offersJSONArray.getJSONObject(i).getInt("point");
-                offer.level = offersJSONArray.getJSONObject(i).getInt("level");
                 offerArrayList.add(offer);
             }
         } catch (JSONException e) {
@@ -73,6 +73,12 @@ public class MapsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"خطا!",Toast.LENGTH_LONG).show();
         }
 
+        setUpMapIfNeeded();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setUpMapIfNeeded();
     }
 
@@ -111,8 +117,46 @@ public class MapsActivity extends AppCompatActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
+        markers.clear();
         for(int i=0;i<offerArrayList.size();i++){
-            mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+            Log.d("Markers", String.valueOf(offerArrayList.get(i).percent));
+            Marker marker;
+            //mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent15)));
+            if(0<=offerArrayList.get(i).percent && offerArrayList.get(i).percent<=10)
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent10)));
+            else if(10<offerArrayList.get(i).percent && offerArrayList.get(i).percent<=15)
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent15)));
+            else if(15<offerArrayList.get(i).percent && offerArrayList.get(i).percent<=20)
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent20)));
+            else
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent25)));
+            markers.add(marker);
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    int offer_id = markers.indexOf(marker);
+                    Intent intent = new Intent(MapsActivity.this, OffersActivity.class);
+                    intent.putExtra("offer_id", offer_id);
+                    startActivity(intent);
+                    return false;
+                }
+            });
         }
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : markers) {
+            builder.include(marker.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        final int width = size.x;
+        final int height = size.y;
+
+        int padding = 50; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,width,height,padding);
+        mMap.moveCamera(cu);
     }
+
 }
