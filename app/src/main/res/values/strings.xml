@@ -13,5 +13,14 @@
     <string name="title_activity_offers">OffersActivity</string>
     <string name="title_activity_my_offers">MyOffersActivity</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="lable_points_needed">امتیاز مورد نیاز تا سطح بعدی</string>
+    <string name="label_offers_used">آفرهای استفاده شده</string>
+    <string name="label_offers_value">به ارزش</string>
+    <string name="btn_search_adraf">جستجوی اَدرافِ من</string>
+    <string name="bt_my_adraf">آفرهای من</string>
 
 </resources>
