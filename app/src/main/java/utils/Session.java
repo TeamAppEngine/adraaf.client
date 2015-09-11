@@ -39,13 +39,13 @@ public class Session {
     }
 
     //User ID
-    public void insertOrUpdateUserID(int userID){
-        editor.putInt(USER_ID, userID);
+    public void insertOrUpdateUserID(String userID){
+        editor.putString(USER_ID, userID);
         editor.commit();
     }
 
-    public Integer readUserID(){
-        return sharedPreferences.getInt(USER_ID,0);
+    public String readUserID(){
+        return sharedPreferences.getString(USER_ID,null);
     }
 
     //User email
@@ -55,7 +55,7 @@ public class Session {
     }
 
     public String readUserEmail(){
-        return sharedPreferences.getString(USER_EMAIL,"");
+        return sharedPreferences.getString(USER_EMAIL,null);
     }
 
 }

@@ -10,12 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.VolleyError;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import utils.Calender;
 import utils.ConnectToServer;
 import utils.DataType;
+import utils.Session;
 
 public class OffersActivity extends AppCompatActivity {
     static public int current_id;
@@ -84,35 +90,102 @@ public class OffersActivity extends AppCompatActivity {
             textViewTitle.setText(current_offer.title);
             textViewAddress.setText(current_offer.description);
 
+            final Session session = new Session(getActivity().getApplicationContext());
             imageViewReserve.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (session.readUserID() == null) {
+                        Intent intent = new Intent(getActivity(), SignUpActivity.class);
+                        getActivity().startActivity(intent);
+                    } else {
+                        ConnectToServer.post(
+                                getActivity(),
+                                true,
+                                "ارتباط با سرور",
+                                "رزرو تخفیف",
+                                ConnectToServer.baseUri + "api/users/" + session.readUserID() + "/buy/" + current_offer.id,
+                                new HashMap<String, String>(),
+                                false,
+                                new ConnectToServer.PostListener() {
+                                    @Override
+                                    public void ResponseListener(String response) {
+                                        Toast.makeText(getActivity().getApplicationContext(),"تخفیف برای شما رزرو شد.",Toast.LENGTH_LONG).show();
+                                    }
 
+                                    @Override
+                                    public void ErrorListener(VolleyError error) {
+                                        Toast.makeText(getActivity().getApplicationContext(),"خطا!",Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                        );
+                    }
                 }
             });
 
             imageViewFav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (session.readUserID() == null) {
+                        Intent intent = new Intent(getActivity(), SignUpActivity.class);
+                        getActivity().startActivity(intent);
+                    } else {
+                        ConnectToServer.post(
+                                getActivity(),
+                                true,
+                                "ارتباط با سرور",
+                                "افزودن به مورد علاقه ها",
+                                ConnectToServer.baseUri + "api/users/" + session.readUserID() + "/save/" + current_offer.id,
+                                new HashMap<String, String>(),
+                                false,
+                                new ConnectToServer.PostListener() {
+                                    @Override
+                                    public void ResponseListener(String response) {
+                                        imageViewFav.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.stared));
+                                    }
 
+                                    @Override
+                                    public void ErrorListener(VolleyError error) {
+                                        Toast.makeText(getActivity().getApplicationContext(),"خطا!",Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                        );
+                    }
                 }
             });
 
             imageViewShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*ConnectToServer.post(
-                            getActivity(),
-                            false,
-                            "","",ConnectToServer.baseUri + "api/users/{user_id}/share/{offer_id}"
-                    );*/
-                    
-                    String shareBody = "تخفیف های ویژه در برنامه اندرویدی ادراف: "+current_offer.title+"؛ "+current_offer.description;
-                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    sharingIntent.setType("text/plain");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "پیشنهاد های ویژه در ادراف");
-                    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-                    startActivity(Intent.createChooser(sharingIntent, "اشتراک"));
+                    if(session.readUserID() == null){
+                        Intent intent = new Intent(getActivity(),SignUpActivity.class);
+                        getActivity().startActivity(intent);
+                    }else{
+                        ConnectToServer.post(
+                                getActivity(),
+                                false,
+                                "",
+                                "",
+                                ConnectToServer.baseUri + "api/users/"+session.readUserID()+"/share/"+current_offer.id,
+                                new HashMap<String, String>(),
+                                false,
+                                new ConnectToServer.PostListener() {
+                                    @Override
+                                    public void ResponseListener(String response) {
+                                        String shareBody = "تخفیف های ویژه در برنامه اندرویدی ادراف: "+current_offer.title+"؛ "+current_offer.description;
+                                        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                                        sharingIntent.setType("text/plain");
+                                        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "پیشنهاد های ویژه در ادراف");
+                                        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                                        startActivity(Intent.createChooser(sharingIntent, "اشتراک"));
+                                    }
+
+                                    @Override
+                                    public void ErrorListener(VolleyError error) {
+
+                                    }
+                                }
+                        );
+                    }
                 }
             });
 
