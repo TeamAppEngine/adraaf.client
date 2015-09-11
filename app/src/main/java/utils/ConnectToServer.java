@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class ConnectToServer {
 
-    public static String baseUri = "http://46.101.36.237/apps/magicmind/v2/index.php/";
+    public static String baseUri = "http://umkkf795f2ee.msadjad.koding.io/";
     public static String ConnectToServerDebugTag = "ConnectToServer";
 
     private static RequestQueue queue = null;
@@ -79,7 +79,7 @@ public class ConnectToServer {
     }
 
     //GET
-    public static void get(final Context context, final boolean withProgressDialog, final String title, final String message, final String url, final Map<String,String> parameters, final boolean attach_user_data, final GetListener getListener){
+    public static void get(final Context context, final boolean withProgressDialog, final String title, final String message, final String url, final boolean attach_user_data, final GetListener getListener){
         final ProgressDialog pd;
         if(withProgressDialog){
             pd = ProgressDialog.show(context, title, message, true);
@@ -114,16 +114,7 @@ public class ConnectToServer {
             }
         };
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,url,listener,errorListener){
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.putAll(parameters);
-                Log.d("params get to " + url, params.toString());
-                return params;
-            }
-        };
-
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,url,listener,errorListener);
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
     }

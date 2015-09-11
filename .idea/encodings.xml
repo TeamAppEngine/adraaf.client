@@ -3,6 +3,7 @@
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$/app/src/main/java/ir/appengine/adraaf/SplashActivity.java" charset="windows-1256" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/utils/ConnectToServer.java" charset="windows-1256" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/utils/DataType.java" charset="windows-1256" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/utils/Session.java" charset="windows-1256" />
     <file url="PROJECT" charset="UTF-8" />
   </component>

@@ -3,6 +3,7 @@ package ir.appengine.adraaf;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,8 +19,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +54,7 @@ public class SearchActivity extends AppCompatActivity {
         float x1,y1;
         int repeat = 0;
         boolean responseReceived = false;
+        String result;
 
         public PlaceholderFragment() {
 
@@ -106,7 +113,7 @@ public class SearchActivity extends AppCompatActivity {
                                 break;
                             case MotionEvent.ACTION_UP:
                                 Log.d("Action Move", "x2: " + String.valueOf(event.getX()) + ", y2: " + String.valueOf(event.getY()));
-                                getLocationData();
+                                getLocationData(35.7552336, 51.367946);
                                 animator = ObjectAnimator.ofFloat(markerImageView, "translationY", 0, -350);
                                 animator.setDuration(500);
                                 animator.addListener(new Animator.AnimatorListener() {
@@ -162,6 +169,15 @@ public class SearchActivity extends AppCompatActivity {
                                                             public void onAnimationEnd(Animator animation) {
                                                                 markerImageView.setVisibility(View.INVISIBLE);
                                                                 linearLayout.setVisibility(View.INVISIBLE);
+                                                                try {
+                                                                    JSONObject jsonObject = new JSONObject(result);
+                                                                    JSONArray jsonArray = jsonObject.getJSONArray("offers");
+                                                                    Intent intent = new Intent(getActivity(), MapsActivity.class);
+                                                                    intent.putExtra("offers", jsonArray.toString());
+                                                                    getActivity().startActivity(intent);
+                                                                } catch (JSONException e) {
+                                                                    e.printStackTrace();
+                                                                }
                                                             }
 
                                                             @Override
@@ -197,7 +213,7 @@ public class SearchActivity extends AppCompatActivity {
                                 break;
                         }
                     }else{
-                        responseReceived = true;
+                        //responseReceived = true;
                     }
                     return true;
                 }
@@ -206,26 +222,26 @@ public class SearchActivity extends AppCompatActivity {
             return rootView;
         }
 
-        private void getLocationData() {
-            Map<String, String> params = new HashMap<>();
+        private void getLocationData(double x1,double y1) {
             //TODO: Add Params for location.
-            ConnectToServer.post(
+            ConnectToServer.get(
                     getActivity(),
                     false,
                     "",
                     "",
-                    ConnectToServer.baseUri + "",
-                    params,
+                    ConnectToServer.baseUri + "api/users/offers?x="+x1+"&y="+y1,
                     false,
-                    new ConnectToServer.PostListener() {
+                    new ConnectToServer.GetListener() {
                         @Override
                         public void ResponseListener(String response) {
-
+                            result = response;
+                            responseReceived = true;
                         }
 
                         @Override
                         public void ErrorListener(VolleyError error) {
-
+                            Toast.makeText(getActivity().getApplicationContext(),"خطا!",Toast.LENGTH_LONG).show();
+                            error.printStackTrace();
                         }
                     }
             );
