@@ -101,11 +101,11 @@ public class OffersActivity extends AppCompatActivity {
             imageViewShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectToServer.post(
+                    /*ConnectToServer.post(
                             getActivity(),
                             false,
                             "","",ConnectToServer.baseUri + "api/users/{user_id}/share/{offer_id}"
-                    );
+                    );*/
                     
                     String shareBody = "تخفیف های ویژه در برنامه اندرویدی ادراف: "+current_offer.title+"؛ "+current_offer.description;
                     Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
