@@ -20,7 +20,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/circle" />
+                android:src="@drawable/level_5" />
 
             <TextView
                 android:id="@+id/text_level"
@@ -89,7 +89,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="#e1e1e1">
 
             <TextView
                 android:id="@+id/btn_search_adraf"
@@ -98,7 +100,9 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:paddingRight="20dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/btn_search_adraf"
+                android:background="#f5f5f5"
                 android:textSize="18sp" />
 
             <TextView
@@ -108,7 +112,10 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:paddingRight="20dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:text="@string/bt_my_adraf"
+                android:background="#f5f5f5"
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>

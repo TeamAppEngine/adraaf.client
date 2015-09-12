@@ -1,5 +1,6 @@
 package ir.appengine.adraaf;
 
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -25,6 +27,16 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private OnFragmentInteractionListener mListener;
     private View containerView;
+    private TextView txtLevel;
+    private TextView lblPointsNeeded;
+    private TextView txtPointsNeeded;
+    private TextView lblOffersUsed;
+    private TextView txtOffersUsed;
+    private TextView lblOffersValue;
+    private TextView txtOffersValue;
+    private TextView btnSearchAdraf;
+    private TextView btnMyAdraf;
+
 
     /**
      * Use this factory method to create a new instance of
@@ -89,6 +101,31 @@ public class NavigationDrawerFragment extends Fragment {
                 mDrawerToggle.syncState();
             }
         });
+        getViewElements();
+    }
+
+    private void getViewElements(){
+
+        txtLevel        = (TextView)getActivity().findViewById(R.id.text_level);
+        lblPointsNeeded = (TextView)getActivity().findViewById(R.id.label_points_needed);
+        txtPointsNeeded = (TextView)getActivity().findViewById(R.id.text_points_needed);
+        lblOffersUsed   = (TextView)getActivity().findViewById(R.id.label_offers_used);
+        txtOffersUsed   = (TextView)getActivity().findViewById(R.id.text_offers_used);
+        lblOffersValue  = (TextView)getActivity().findViewById(R.id.label_offers_value);
+        txtOffersValue  = (TextView)getActivity().findViewById(R.id.text_offers_value);
+        btnSearchAdraf  = (TextView)getActivity().findViewById(R.id.btn_search_adraf);
+        btnMyAdraf      = (TextView)getActivity().findViewById(R.id.btn_my_adraf);
+
+        Typeface typefaceYekan = Typeface.createFromAsset(getActivity().getAssets(), "B Yekan.ttf");
+        txtLevel.setTypeface(typefaceYekan);
+        lblPointsNeeded.setTypeface(typefaceYekan);
+        txtPointsNeeded.setTypeface(typefaceYekan);
+        lblOffersUsed.setTypeface(typefaceYekan);
+        txtOffersUsed.setTypeface(typefaceYekan);
+        lblOffersValue.setTypeface(typefaceYekan);
+        txtOffersValue.setTypeface(typefaceYekan);
+        btnSearchAdraf.setTypeface(typefaceYekan);
+        btnMyAdraf.setTypeface(typefaceYekan);
     }
 
     /**

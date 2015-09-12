@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import utils.Session;
+
 public class SplashActivity extends Activity {
 
     /** Duration of wait **/
@@ -16,17 +18,25 @@ public class SplashActivity extends Activity {
         super.onCreate(icicle);
         setContentView(R.layout.splashscreen);
 
+        Session session = new Session(getApplicationContext());
+        if(session.readIntro() == false){
+            Intent intent = new Intent(SplashActivity.this,IntroActivity.class);
+            startActivity(intent);
+        }
+        else {
+
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(SplashActivity.this,SearchActivity.class);
-                SplashActivity.this.startActivity(mainIntent);
-                SplashActivity.this.finish();
-            }
-        }, SPLASH_DISPLAY_LENGTH);
+                    Intent mainIntent = new Intent(SplashActivity.this, SearchActivity.class);
+                    SplashActivity.this.startActivity(mainIntent);
+                    SplashActivity.this.finish();
+                }
+            }, SPLASH_DISPLAY_LENGTH);
+        }
     }
 
 }

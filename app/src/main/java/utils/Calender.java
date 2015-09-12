@@ -174,65 +174,65 @@ public class Calender {
 
             switch (month) {
                 case 1:
-                    strMonth = "İÑæÑÏíä";
+                    strMonth = "    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 2:
-                    strMonth = "ÇÑÏíÈåÔÊ";
+                    strMonth = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 3:
-                    strMonth = "ÎÑÏÇÏ";
+                    strMonth = "ï¿½ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 4:
-                    strMonth = "ÊíÑ";
+                    strMonth = "ï¿½ï¿½ï¿½";
                     break;
                 case 5:
-                    strMonth = "ãÑÏÇÏ";
+                    strMonth = "ï¿½ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 6:
-                    strMonth = "ÔåÑíæÑ";
+                    strMonth = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 7:
-                    strMonth = "ãåÑ";
+                    strMonth = "ï¿½ï¿½ï¿½";
                     break;
                 case 8:
-                    strMonth = "ÂÈÇä";
+                    strMonth = "ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 9:
-                    strMonth = "ÂĞÑ";
+                    strMonth = "ï¿½ï¿½ï¿½";
                     break;
                 case 10:
-                    strMonth = "Ïí";
+                    strMonth = "ï¿½ï¿½";
                     break;
                 case 11:
-                    strMonth = "Èåãä";
+                    strMonth = "ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 12:
-                    strMonth = "ÇÓİäÏ";
+                    strMonth = "ï¿½ï¿½ï¿½ï¿½ï¿½";
                     break;
             }
 
             switch (WeekDay) {
 
                 case 0:
-                    strWeekDay = "í˜ÔäÈå";
+                    strWeekDay = "ï¿½ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 1:
-                    strWeekDay = "ÏæÔäÈå";
+                    strWeekDay = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 2:
-                    strWeekDay = "Óå ÔäÈå";
+                    strWeekDay = "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 3:
-                    strWeekDay = "åÇÑÔäÈå";
+                    strWeekDay = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 4:
-                    strWeekDay = "äÌ ÔäÈå";
+                    strWeekDay = "ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 5:
-                    strWeekDay = "ÌãÚå";
+                    strWeekDay = "ï¿½ï¿½ï¿½ï¿½";
                     break;
                 case 6:
-                    strWeekDay = "ÔäÈå";
+                    strWeekDay = "ï¿½ï¿½ï¿½ï¿½";
                     break;
             }
 

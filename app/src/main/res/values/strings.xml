@@ -22,5 +22,10 @@
     <string name="label_offers_value">به ارزش</string>
     <string name="btn_search_adraf">جستجوی اَدرافِ من</string>
     <string name="bt_my_adraf">آفرهای من</string>
+    <string name="title_activity_intro">intro</string>
+    <string name="intro1_big_text">در اَدراف چه می گذرد؟</string>
+    <string name="intro1_small_text">آفرهای اطراف خود را تنها با یک حرکت بیابید</string>
+    <string name="intro2_big_text">این آفرها تنها برای شماست</string>
+    <string name="intro2_small_text">هر زمان که خودتان بخواهید میتوانید آفرهای مورد علاقه نزدیکتان را دریافت کنید</string>
 
 </resources>

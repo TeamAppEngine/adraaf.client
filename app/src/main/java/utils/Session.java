@@ -12,6 +12,7 @@ public class Session {
     private static final String USER_POINT = "user_point";
     private static final String USER_ID = "user_id";
     private static final String USER_EMAIL = "user_email";
+    private static final String INTRO = "intro";
 
     public Session(Context context) {
         sharedPreferences = context.getSharedPreferences(SHARED_NAME, Context.MODE_PRIVATE);
@@ -45,7 +46,7 @@ public class Session {
     }
 
     public String readUserID(){
-        return sharedPreferences.getString(USER_ID,null);
+        return sharedPreferences.getString(USER_ID, null);
     }
 
     //User email
@@ -56,6 +57,16 @@ public class Session {
 
     public String readUserEmail(){
         return sharedPreferences.getString(USER_EMAIL,null);
+    }
+
+    //User intro
+    public void insertOrUpdateIntro(boolean intro){
+        editor.putBoolean(INTRO, intro);
+        editor.commit();
+    }
+
+    public Boolean readIntro(){
+        return sharedPreferences.getBoolean(INTRO,false);
     }
 
 }
