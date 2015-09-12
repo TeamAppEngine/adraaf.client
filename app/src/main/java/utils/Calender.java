@@ -170,7 +170,6 @@ public class Calender {
                     }
                     year = miladiYear - 622;
                 }
-
             }
 
             switch (month) {

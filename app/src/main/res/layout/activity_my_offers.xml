@@ -1,9 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ir.appengine.adraaf.MyOffersActivity">
+    tools:context="ir.appengine.adraaf.MyOffersActivity"
+    android:background="#dddddd">
     <ListView
-        android:id="@+id/activity_my_offers"
+        android:id="@+id/activity_my_offers_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:divider="@drawable/divider"/>
 </RelativeLayout>

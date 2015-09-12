@@ -80,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         true,
                                         "ارتباط با سرور",
                                         "ثبت نام",
-                                        ConnectToServer.baseUri + "api/users?email=" + String.valueOf(editTextUsername.getText()) + "&password=" + String.valueOf(editTextPassword.getText()),
+                                        ConnectToServer.baseUri + "api/users/login_session?email=" + String.valueOf(editTextUsername.getText()) + "&password=" + String.valueOf(editTextPassword.getText()),
                                         false,
                                         new ConnectToServer.GetListener() {
                                             @Override

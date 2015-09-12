@@ -5,7 +5,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/signup_bg"/>
+        android:src="@drawable/signup_bg"
+        android:layout_alignParentBottom="true"/>
     <TextView
         android:id="@+id/activity_sign_up_text_view_register"
         android:layout_width="wrap_content"

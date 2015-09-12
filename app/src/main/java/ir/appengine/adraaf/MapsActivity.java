@@ -122,14 +122,33 @@ public class MapsActivity extends AppCompatActivity {
             Log.d("Markers", String.valueOf(offerArrayList.get(i).percent));
             Marker marker;
             //mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent15)));
-            if(0<=offerArrayList.get(i).percent && offerArrayList.get(i).percent<=10)
-                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent10)));
+            switch (offerArrayList.get(i).category){
+                case 1:
+                    marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin1)));
+                    break;
+                case 2:
+                    marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin2)));
+                    break;
+                case 3:
+                    marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin3)));
+                    break;
+                case 4:
+                    marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin4)));
+                    break;
+                case 5:
+                    marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).icon(BitmapDescriptorFactory.fromResource(R.drawable.pin5)));
+                    break;
+                default:
+                    marker = null;
+            }
+/*            if(0<=offerArrayList.get(i).percent && offerArrayList.get(i).percent<=10)
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent10)));
             else if(10<offerArrayList.get(i).percent && offerArrayList.get(i).percent<=15)
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent15)));
             else if(15<offerArrayList.get(i).percent && offerArrayList.get(i).percent<=20)
                 marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent20)));
             else
-                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent25)));
+                marker = mMap.addMarker(new MarkerOptions().position(new LatLng(offerArrayList.get(i).x, offerArrayList.get(i).y)).title(offerArrayList.get(i).title).icon(BitmapDescriptorFactory.fromResource(R.drawable.percent25)));*/
             markers.add(marker);
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
