@@ -1,5 +1,6 @@
 package ir.appengine.adraaf;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import utils.ConnectToServer;
+import utils.Session;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +33,28 @@ import android.widget.TextView;
  */
 public class NavigationDrawerFragment extends Fragment {
 
+    private int levelPoint[] = {
+            0,
+            101,
+            222,
+            373,
+            554,
+            765,
+            1016,
+            1317,
+            1678,
+            2119,
+            2640,
+            3271,
+            4022,
+            4923,
+            6004,
+            7305,
+            8866,
+            10737,
+            12978,
+            15669
+    };
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private OnFragmentInteractionListener mListener;
@@ -36,7 +68,7 @@ public class NavigationDrawerFragment extends Fragment {
     private TextView txtOffersValue;
     private TextView btnSearchAdraf;
     private TextView btnMyAdraf;
-
+    private String result;
 
     /**
      * Use this factory method to create a new instance of
@@ -104,6 +136,25 @@ public class NavigationDrawerFragment extends Fragment {
         getViewElements();
     }
 
+    public void updateInfo(int level, int points){
+        if(level != 19)
+            txtPointsNeeded.setText(levelPoint[level] - points);
+        txtLevel.setText(level);
+    }
+
+    private void startMapsActivity(){
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            JSONArray jsonArray = jsonObject.getJSONArray("offers");
+            Intent intent = new Intent(getActivity(), MapsActivity.class);
+            intent.putExtra("offers", jsonArray.toString());
+            getActivity().startActivity(intent);
+            getActivity().finish();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void getViewElements(){
 
         txtLevel        = (TextView)getActivity().findViewById(R.id.text_level);
@@ -125,7 +176,78 @@ public class NavigationDrawerFragment extends Fragment {
         lblOffersValue.setTypeface(typefaceYekan);
         txtOffersValue.setTypeface(typefaceYekan);
         btnSearchAdraf.setTypeface(typefaceYekan);
+        btnSearchAdraf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConnectToServer.get(
+                        getActivity(),
+                        true,
+                        "ارتباط با سرور",
+                        "دریافت آفرهای اطراف شما",
+                        ConnectToServer.baseUri + "api/users/offers?x=35.7552336&y=51.367946",
+                        false,
+                        new ConnectToServer.GetListener() {
+                            @Override
+                            public void ResponseListener(String response) {
+                                result = response;
+                                try {
+                                    JSONObject jsonObject = new JSONObject(result);
+                                    JSONArray jsonArray = jsonObject.getJSONArray("offers");
+                                    Intent intent = new Intent(getActivity(), MapsActivity.class);
+                                    intent.putExtra("offers", jsonArray.toString());
+                                    getActivity().startActivity(intent);
+                                    getActivity().finish();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void ErrorListener(VolleyError error) {
+                                error.printStackTrace();
+                            }
+                        }
+                );
+            }
+        });
         btnMyAdraf.setTypeface(typefaceYekan);
+        btnMyAdraf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Session session = new Session(getActivity().getApplicationContext());
+                if(session.readUserID() == null){
+                    Intent intent = new Intent(getActivity(), SignUpActivity.class);
+                    getActivity().startActivity(intent);
+                }else{
+                    ConnectToServer.get(
+                            getActivity(),
+                            true,
+                            "",
+                            "",
+                            ConnectToServer.baseUri + "api/users/" + session.readUserID() + "/saved_offers",
+                            false,
+                            new ConnectToServer.GetListener() {
+                                @Override
+                                public void ResponseListener(String response) {
+                                    try {
+                                        JSONObject result = new JSONObject(response);
+                                        Intent intent = new Intent(getActivity(), MyOffersActivity.class);
+                                        intent.putExtra("my_offers", result.getJSONArray("offers").toString());
+                                        getActivity().startActivity(intent);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void ErrorListener(VolleyError error) {
+
+                                }
+                            }
+                    );
+                }
+            }
+        });
     }
 
     /**
