@@ -40,6 +40,11 @@ public class SearchActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+    
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
